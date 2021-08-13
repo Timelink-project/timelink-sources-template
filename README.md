@@ -2,35 +2,36 @@
 
 This directory contains source files in kleio notation collected in the scope of the Timelink/MHK project.
 
-## Usage
+Use this repository as a template when creating a new Timelink source collection. 
 
-This repository should be forked to a new repository with the name of the new community project. 
+The instructions bellow will create a new repository for your project. This will allow
+to have copies of the sucessive versions of your sources, cooperate with people in
+editing the texts and generate automatic replicas of the data online.
 
-On Azure DevOps:
+You need a github account to follow the instructions above. You can also simply donwload
+the files and not use github for control, as explained in the section "Usage without online repository".
 
-1. Create a new project with the name of the community, for instance: Soure
+## Create a new source collection
 
-2. Go to the project timelink-sources-template and select Repos on the left
+1. Create a github account if you do not have one. See github.com for a free account.
+   
+2. Go to the main page of this repository at https://github.com/Timelink-project/timelink-sources-template.git. 
 
-3. On top right click on fork.
+3. Above the file list click on "Use this template"
 
-4. Rename the new Repo <COMMUNITY>-sources, e.g., soure-sources and select the community project created in 1 as the destination. Copy all branches.
+4. Make sure that *Owner* corresponds to your github user and type a name for the 
+   new repository name and a short description.
 
-5. Go to the project created in 1. and select Repos. You should see the repository created in 5.
+5. Choose if you want your repository to be public or private. If you choose private 
+   you can give access to specific users of your choice. If you choose public everyone
+   download your files, but not make changes to the repository.
 
-6. On top right click on Clone.
+6. Click "Create repository from template"
 
-7. Either use the command given or clone with VSCode.
+7. Go to the new repository and clone it to your machine.  Timelink source repositories normally go to the directory mhk-home/sources in your home directory.
 
-
-On GitHub:
-
-
-Then, clone on work computer with:
-
-
-
-## What is Timelink?
+8. Once the files are in your machine edit this README.md, removing these instructions and completing the information bellow about your source collection.
+## What is Timelink
 
 Timelink, formerly known as MHK (Micro History with Kleio) is an information system designed for processing person related information collected from historical sources. 
 
@@ -52,7 +53,7 @@ Timelink is open source MIT License software available at http://github.com/joaq
 
 Timelink link software is distributed under a MIT license that includes usage for commercial purposes. 
 
-Kleio transcriptions of historical sources are not distributed under the same license. 
+Kleio transcriptions of historical sources are *not* distributed under the same license. 
 
 Each Kleio transcription file is copyright of the person or persons that produced the transcription.
 
