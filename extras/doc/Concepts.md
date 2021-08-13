@@ -1,40 +1,72 @@
 # Conceitos básicos para gestão do processo de transcrição
 
-
 ## Resumo
 
 4 fases no processo de tratamento dos dados: _transcrição, tradução, importação e identificação_.
 
-4 tipos de intervenientes: _transcritor, tradutor, importador e identificador_.
+### Transcrição
 
-4 tipos de ficheiros principais associados a cada fase: `.cli,.xml,.sql,.idf`
-   
+Corresponde à produção de um ficheiro de texto, numa notação especial denominada `kleio`, com a informação contida na fonte histórica. Esta fase é feita por um operador (_transcritor_) num programa de processamento de texto, sendo recomendado o `Visual Studio Code` com extensões que facilitam a introdução da notação `kleio`.
+
+### Tradução
+
+Corresponde à extração de dados da transcrição, e criação de um ficheiro de dados, passível de ser importado num programa de gestão de dados.  Esta fase é feito pelo `Timelink`.
+
+### Importação
+
+Processamento de um ficheiro de dados produzido na fase de tradução, e inserção dos dados numa base de dados. Esta fase é feita no `Timelink`.
+### Identificação
+
+Processo de determinação que diferentes referências a pessoas nos dados. Esta fase é feita por um operador (_identificador_) através de um _înterface_ disponibilizado pelo `Timelink`.
+
+###  Diferentes tipos de ficheiros   
 * transcrição: `.cli`
-* tradução: `.xml` e `.cli` (e relatórios de tradução `.rpt`,`.err` e ficheiros auxiliares `.str`,`.srpt`, `.inf`).
-* importação: `.sql` (e também relatórios de importação `.xrpt`, `.xerr`).
-* identificação: `.idf` (e também cópia da base de dados `.sql`)
+* tradução: `.xml`, com os dados extraídos do ficheiro `.cli`,e relatórios de tradução `.rpt`,`.err` e ficheiros auxiliares `.str`,`.srpt`, `.inf`).
+* importação: `.sql` para cópias de segurança da base de dados.
+* identificação: `.cli`, que incluem índices de ocorrências de pessoas identificadas, funcionam como um índice.
 
 Os diferentes ficheiros são geridos pelos diferentes intervenientes através de um repositório `Git`.
 
-## A cada projeto tem um repositório `Git` de referência.
+# A gestão dos ficheiros de um projeto `Timelink`
+## Cada projeto tem um repositório `Git` de referência.
 
 A cada projeto `Timelink` corresponde um repositório `Git` de referência, que contém todos os ficheiros gerados pelo processo de transcrição, tradução, importação e identificação.
 
-`Git` é uma ferramenta criada para gerir o conteúdo de ficheiros que se alteram ao longo do tempo devido ao contributo sucessivo de várias pessoas. 
+`Git` é uma ferramenta criada para gerir o conteúdo de ficheiros que se alteram ao longo do tempo pelo contributo sucessivo de várias pessoas. 
 
 >O `Git` é tipicamente usado em projectos informáticos em que o resultado final é um programa de computador. Nesses projectos é necessário integrar contributos de várias pessoas e alterações frequentes a ficheiros, devido a correção de erros ou implementação de novas funcionalidades.
 
-> No `Timelink` o `Git` é utilizado para controlar os ficheiros com transcrições de fontes históricas, recolhidos por uma ou várias pessoas, e as identificações de co-ocorrências de pessoas e entidades nas fontes. O resultado final é uma representação da informação contida nas fontes históricas sob a forma de base de dados pesquisável.
+_Repositório_ é o nome dado ao conjunto dos ficheiros de um projeto, que inclui também a história das alterações feitas aos ficheiros ao longo do tempo. Os repositórios `Git` permitem em qualquer momento saber quem e quando fez alterações a cada ficheiro, voltar a versões anteriores, e combinar alterações feitas por diferentes pessoas numa versão final.
+
+> No `Timelink` o `Git` é utilizado para controlar os ficheiros com transcrições de fontes históricas, recolhidos por uma ou várias pessoas, e as identificações de co-ocorrências de pessoas e entidades nas fontes. 
+
+Os reposítórios podem ser partilhados via internet, usando um serviço de hospedagem. Os projetos `Timelink` usam o serviço `Github`, que permite utilização gratuita mantendo os repositórios privados a um número reduzido de colaboradores.
+
+> Através do `Github` projetos utilizando o `Timelink` podem incorporar o trabalho de vários colaboradores e gerar automaticamanete bases de dados acessíveis na internet
 
 Quando se inicia um novo projecto, ou se migra um projeto existente para este formato, é criado um repositório `Git` acessível via internet.
 
-## Em cada repositório o ramo `master` corresponde à versão de referência.
+> Para uma introdução ao `Git`, em português, ver: https://docs.github.com/pt/github/getting-started-with-github
+## Acesso de colaboradores aos ficheiros do projeto.
 
-Os repositórios `Git` podem conter vários _ramos_ que correspondem a versões criadas ou alteradas por diferentes intervenients no projeto.
+Para permitir o contributo de várias pessoas num projeto, são feitas cópias dos repositórios e agregadas periodicamente as alterações feitas em cada um.
 
-O ramo `master` preserva a _versão de referência_ de todos os ficheiros produzidos pelas várias fases do processo. O ramo `master` alimenta uma base de dados de referência para a comunidade, e pode alimentar outras cópias que sejam criadas para comodidade e redundância.
+Duas operações sobre repositórios estão na base da organização da cooperação via `Git` na plataforma `github` (outras plataforma usam conceitos similares) : `clonar` e `bifurcar` (_fork_ em inglês).
 
-> Isso significa que é possível duplicar todo o projecto fazendo um clone unidirecional do ramo `master` e importando o conteúdo do ficheiro `.sql` mais recente (se for o mesmo tipo de sistema de base de dados usado no master), ou refazendo a importação das fontes e das identificações para uma base de dados alternativa.
+`clonar` é a operação que efetua uma cópia do repositório da internet para um computador local. O objetivo desta operação é obter uma cópia dos ficheiro para alteração ou processamento num computador específico. Posteriormente à operação de `clonar` os ficheiros locais podem ser enviados de volta para o repositório na internet (operação `push`). A cópia local pode ser autalizada com alterações feitas por outros utilizadores no repositório na internet (operação de `pull`).
+
+`bifurcar` é a operação que cria um novo repositório na internet a partir de um repositório já existe também na internet. O objetivo desta operação é permitir que se altere ou acrescente um repositório sem interferir no conteúdo do repositório de referência. Após a bifurcação as operação de atualização em ambas as direções afectam apenas a cópia do respositório e não o original. Existe uma operação específica para incorporar as alterações feitas na cópia bifurcada com o repositório original (`pull request`).
+
+
+Diferentes colaboradores do projecto devem bifurcar o repositório de referência. 
+
+Caso o projecto tenha mais que um coordenador que trabalham na mesma organização ou com proximidade e facilidade de contacto, podem trabalhar sobre _clones_ do repositório de referência.
+
+Colaboradores que não pertencem à mesma organização normalmente trabalham sobre repositórios bifurcados. Sobre isto ver: https://github.community/t/branch-vs-fork/1206
+
+
+
+
 
 
 A gestão do ramo `master` cabe ao responsável do projecto.
@@ -66,7 +98,7 @@ No sentido mais geral a comunidade é um conjunto de pessoas e outras entidades 
 
 Um projeto elaborado com `Timelink` envolve a transcrição de fontes histórica em quantidade significativa, seguido do seu processamento para alimentar uma base de dados centrada nas pessoas, os seus atributos, as suas relações e as funções que assumem em diferentes actos ou acontecimentos.
 
-## Transcrição, tradução, importação e identificação
+## Transcrição, tradução, importação e identificação/análise
 
 Cada comunidade tratada com a metodologia `Timelink` produz uma série de representações informáticas que correspondem a níveis progressivos de abstração, partindo da informação das fontes até à elaborações de modelos analíticos pelo investigador, como _histórias de vida_, _redes interpessoais_ e outras construções intepretativas.
 
@@ -110,10 +142,10 @@ Estas representações informáticas resultam de um _processo_ que vai desde a a
     * É importante entender que no `Timelink`a informação importada é imutável. Não existe modo através do interface da base de dados de alterar os dados importados. 
     * Quando um erro é detectado na base de dados a correção tem de ser feita na transcrição original, que é re-traduzida e reimportada. Este princípio garante a transparência da informação usada no projeto e a sua acessibilidade na forma de transcrição de fonte.
     * Assim a fase de importação não adiciona informação à fase anterior. Apenas a transforma num formato mais acessível.
-    * Esta fase pode ser representada por uma exportação em linguagem `sql` do conteúdo da base de dados e pelos ficheiros `.xpt` com o relatório de importação e `.xerr`com o número de erros detectados no processo de importação.
+    * Esta fase pode ser representada por uma exportação em linguagem `sql` do conteúdo da base de dados e pelos ficheiros `.xrpt` com o relatório de importação e `.xerr`com o número de erros detectados no processo de importação.
 
-4. O `identificador` (ou o _investigador_, porque pode gerar também redes e grupos) toma decisões sobre quem é quem na informação recolhida e pode gerar entidades derivadas como redes e grupos. 
-    * Na sua essência o processo de identificação regista decisões do tipo:  a pessoa X que ocorre no acto A é a mesma que a pessoa Y que ocorre no acto B. 
+4. O `identificador` (ou o _analista_, porque pode gerar também redes e grupos) toma decisões sobre quem é quem na informação recolhida e pode gerar entidades derivadas como redes e grupos. 
+    * Na sua essência o processo de identificação regista decisões do tipo:  a pessoa X que ocorre no acto A é a mesma que a pessoa Y que ocorre no acto B. Além de pessoas é possível identificar outro tipos de entidades, como terras, objetos, documentos (numa investigação concreta as ações de uma companhia).
     * Essas decisões são registadas em tabelas específicas na base de dados e podem ser exportadas no formato `json` que facilita a troca com outras aplicações.
     * Como as identificações são feitas na base de dados elas também são incluídas em ficheiro de exportação da base de dados em formato `sql`.
 
